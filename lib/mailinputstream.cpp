@@ -355,7 +355,7 @@ MailInputStream::MailInputStream(InputStream* input)
     // parse the header and store the imporant header fields
     p->readHeader();
     if (m_status != Ok) {
-        fprintf(stderr, "no valid header\n");
+//        fprintf(stderr, "no valid header\n");
         return;
     }
 }
