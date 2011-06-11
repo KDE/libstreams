@@ -89,6 +89,8 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/StrigiConfig.cmake
 	DESTINATION ${LIB_DESTINATION}/strigi)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/LibStreamsConfig.cmake
 	DESTINATION ${LIB_DESTINATION}/libstreams)
+install(EXPORT StreamsExport FILE LibStreamsTargets.cmake
+        DESTINATION ${LIB_DESTINATION}/libstreams)
 
 # library
 if(NOT WIN32)
