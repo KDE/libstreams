@@ -43,7 +43,9 @@ Strigi::checkUtf8(const char* p, int32_t length) {
             val = (val << 6) + (c & 0x3F);
             if (--nb == 0) {
                 // check the range of the utf 8 value
-                if (val == 0xFFFE || val == 0xFFFF) { // Noncharacters
+                if (val == 0xFFFE || val == 0xFFFF // Noncharacters
+                        // surrogate values not allowed in UTF-8
+                        || (val >= 0xD800 && val <= 0xDFFF)) {
                     return false;
                 }
             }
@@ -97,7 +99,9 @@ Strigi::checkUtf8(const char* p, int32_t length, char& nb) {
             val = (val << 6) + (c & 0x3F);
             if (--nb == 0) {
                 // check the range of the utf 8 value
-                if (val == 0xFFFE || val == 0xFFFF) { // Noncharacters
+                if (val == 0xFFFE || val == 0xFFFF // Noncharacters
+                        // surrogate values not allowed in UTF-8
+                        || (val >= 0xD800 && val <= 0xDFFF)) {
                     // nb is 0 to signal an error
                     return p;
                 }
