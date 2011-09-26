@@ -91,7 +91,10 @@ SkippingFileInputStream::read(const char*& start, int32_t _min, int32_t _max) {
          return -2; // error
     }
     // take a decent buffersize that can hold the request
-    int32_t n = max(1024, max(_min, _max));
+    int32_t n = max(_min, _max);
+    if (_max <= 0) {
+        n = max(1024, _min);
+    }
     if (n > buffersize) {
         buffer = (char*)realloc(buffer, n);
     }
