@@ -171,6 +171,13 @@ StreamBuffer<T>::makeSpace(int32_t needed) {
 
     // still not enough space, we have to allocate more
 //    printf("resize %i %i %i %i %i\n", avail, needed, space, size + needed - space, size);
+    if (size > needed - space) {
+        // double the buffer size
+        space += size;
+        setSize(2 * size);
+        return space;
+    }
+    // just allocate what is needed
     setSize(size + needed - space);
     return needed;
 }
