@@ -53,6 +53,7 @@ public:
     int32_t nextSmallBlock(int32_t);
     const char* getCurrentSmallBlock();
     InputStream* nextEntry();
+    bool readInt32(int32_t pos, int32_t& val);
 };
 
 namespace {
@@ -150,6 +151,16 @@ OleEntryStream::fillBuffer(char* start, int32_t space) {
 OleInputStream::OleInputStream(InputStream* input) :SubStreamProvider(input),
     p(new Private(this, input)) {
 }
+bool
+OleInputStream::Private::readInt32(int32_t offset, int32_t& val) {
+    if (offset < 0 || offset + 4 >= size) {
+        stream->m_status = Error;
+        stream->m_error = string("pointer out of range.");
+        return false;
+    }
+    val = readLittleEndianInt32(data + offset);
+    return true;
+}
 OleInputStream::Private::Private(OleInputStream* s, InputStream* input)
         :entrystream(new OleEntryStream(this)), stream(s) {
     currentTableBlock = -1;
@@ -177,7 +188,8 @@ OleInputStream::Private::Private(OleInputStream* s, InputStream* input)
     batIndex.reserve(nBat);
     data += 76;
     for (int i = 0; i < ::min(109, nBat); ++i) {
-        int32_t p = readLittleEndianInt32(data+4*i);
+        int32_t p;
+        if (!readInt32(4*i, p)) { return; }
         batIndex.push_back(p);
         if (p > max) max = p;
     }
@@ -205,10 +217,12 @@ OleInputStream::Private::Private(OleInputStream* s, InputStream* input)
     xBatOffset = 512 + 512 * xBatOffset;
     for (int j = 0; j < nXBat; ++j) {
         for (int i = 0; i<127 && (int)batIndex.size() < nBat; ++i) {
-            int32_t p = readLittleEndianInt32(data + 4*i + xBatOffset);
+            int32_t p;
+            if (!readInt32(4*i + xBatOffset, p)) { return; }
             batIndex.push_back(p);
         }
-        xBatOffset = 512+512*readLittleEndianInt32(data + 508 + xBatOffset);
+        if (!readInt32(508 + xBatOffset, xBatOffset)) { return; }
+        xBatOffset = 512 + 512 * xBatOffset;
     }
 
     // print all bat blocks
@@ -239,12 +253,7 @@ OleInputStream::Private::Private(OleInputStream* s, InputStream* input)
     sbatbIndex.reserve(sbatIndex.size()*16);
     // read the info for the root entry
     currentDataBlock = (1+ptOffset)*512 + 0x74;
-    if (currentDataBlock + 4 > size) {
-        stream->m_status = Error;
-        stream->m_error = "Invalid header.";
-        return;
-    }
-    currentDataBlock = readLittleEndianInt32(data + currentDataBlock);
+    if (!readInt32(currentDataBlock, currentDataBlock)) { return; }
     while (currentDataBlock >= 0 && sbatbIndex.size() < 16000) {
         sbatbIndex.push_back(currentDataBlock);
         currentDataBlock = nextBlock(currentDataBlock);
