@@ -97,6 +97,9 @@ SkippingFileInputStream::read(const char*& start, int32_t _min, int32_t _max) {
     }
     if (n > buffersize) {
         n = buffersize = max(n, 2 * buffersize);
+        if (m_size > 0 && buffersize > m_size) {
+            n = buffersize = m_size;
+        }
         buffer = (char*)realloc(buffer, n);
     }
     int32_t nr = (int32_t)fread(buffer, 1, n, file);
