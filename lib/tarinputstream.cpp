@@ -68,6 +68,8 @@ TarInputStream::checkHeader(const char* h, int32_t hsize) {
     // is ended by a \0, after this \0 only \0 is allowed
     int p = 0;
     while (p < 100 && h[p] != '\0') ++p;
+    if ( p==0 ) return false; // make sure the name is at least 1 char long
+    
     while (p < 100) {
         if (h[p++] != '\0') {
             return false;
