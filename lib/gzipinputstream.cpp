@@ -43,7 +43,7 @@ GZipInputStream::GZipInputStream(InputStream* input, ZipFormat format)
 }
 bool
 GZipInputStream::checkHeader(const char* data, int32_t datasize) {
-    return datasize>2 && data[0]==0x1f && data[1] == 0x8b;
+    return datasize>2 && (unsigned char)data[0]==0x1f && (unsigned char)data[1]==0x8b;
 }
 
 GZipInputStream::Private::Private(GZipInputStream* gi,
