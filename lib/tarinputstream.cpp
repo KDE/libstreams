@@ -50,10 +50,12 @@ TarInputStream::nextEntry() {
 }
 const char*
 TarInputStream::readHeader() {
-    // read the first 500 characters
+    // read the first 512 characters
     const char *begin;
     int32_t nread = m_input->read(begin, 512, 512);
-    if (nread != 512) {
+    if (nread == 0 || m_input->status() == Eof) {
+        m_status = Eof;
+    } else if (nread != 512) {
         m_status = Error;
     }
     return begin;
@@ -68,12 +70,18 @@ TarInputStream::checkHeader(const char* h, int32_t hsize) {
     // is ended by a \0, after this \0 only \0 is allowed
     int p = 0;
     while (p < 100 && h[p] != '\0') ++p;
-    if ( p==0 ) return false; // make sure the name is at least 1 char long
-    
+
     while (p < 100) {
         if (h[p++] != '\0') {
             return false;
         }
+    }
+    bool justZeroes = true;
+    while (p < 256 && justZeroes) {
+        justZeroes = h[p++] == 0;
+    }
+    if (justZeroes) {
+        return false;
     }
 
     // check for field values that should be '\0' for the header to be a
@@ -84,8 +92,38 @@ TarInputStream::checkHeader(const char* h, int32_t hsize) {
 void
 TarInputStream::parseHeader() {
     const char *hb;
+
     hb = readHeader();
-    if (m_status) return;
+    if (m_status) {
+        m_status = Error;
+        m_error = "Premature end of file.";
+        return;
+    }
+    // a tar file should end with at least 2 blocks of '\0' bytes
+    bool justZeroes = true;
+    int i, numZeroBlocks = 0;
+    for (i = 0; i < 512 && justZeroes; ++i) {
+        justZeroes = hb[i] == 0;
+    }
+    while (justZeroes) {
+        numZeroBlocks++;
+        hb = readHeader();
+        if (numZeroBlocks == 1 && m_status == Eof) {
+            m_status = Error;
+            m_error = "Premature end of file.";
+            return;
+        } else if (m_status == Error || m_status == Eof) {
+            return;
+        }
+        for (i = 0; i < 512 && justZeroes; ++i) {
+            justZeroes = hb[i] == 0;
+        }
+        if (!justZeroes) {
+           m_status = Error;
+           m_error = "Invalid tar file.";
+           return;
+        }
+    }
 
     // check for terminators ('\0') on the first couple of fields
     if (!checkHeader(hb, 257)) {
