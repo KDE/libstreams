@@ -27,6 +27,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#ifdef __MINGW64_VERSION_MAJOR
+#undef stat
+#endif
+
 using namespace std;
 using namespace Strigi;
 
