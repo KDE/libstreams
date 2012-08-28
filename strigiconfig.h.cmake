@@ -242,3 +242,11 @@
 #endif
 
 #endif //STRIGICONFIG_H
+
+namespace Strigi {
+    unsigned int STRIGI_EXPORT versionMajor();
+
+    unsigned int STRIGI_EXPORT versionMinor();
+
+    const char* STRIGI_EXPORT versionString();
+}
