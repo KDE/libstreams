@@ -33,6 +33,7 @@ set(streams_SRCS
 	tarinputstream.cpp
 	textutils.cpp
 	zipinputstream.cpp
+    strigiconfig.cpp
 )
 
 if(NOT WIN32)
