@@ -3,11 +3,10 @@ project (libstreams)
 
 ##### cmake settings #####
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(MacroCheckGccVisibility)
 enable_testing()
-
 
 ##### global variables #####
 
@@ -19,8 +18,8 @@ set(STRIGI_VERSION_STRING "${STRIGI_VERSION_MAJOR}.${STRIGI_VERSION_MINOR}.${STR
 set(LIBSTREAMS_VERSION ${STRIGI_VERSION_STRING})
 
 # definition of LIB_DESTINATION which is the path where the lib is installed
-set (LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)" )
-set (LIB_DESTINATION "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}" CACHE STRING "Library directory name" FORCE)
+include(GNUInstallDirs)
+set(LIB_DESTINATION "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 
 # for StrigiConfig.cmake
 get_filename_component(_LIBRARY_ROOT "${LIB_DESTINATION}" PATH)
