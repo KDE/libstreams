@@ -55,6 +55,16 @@ include(ConfigureChecks.cmake)
 configure_file(StrigiConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/StrigiConfig.cmake @ONLY )
 configure_file(LibStreamsConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/LibStreamsConfig.cmake @ONLY )
 
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(${libstreams_BINARY_DIR}/StrigiConfigVersion.cmake
+                                 VERSION ${STRIGI_VERSION_STRING}
+                                 COMPATIBILITY SameMajorVersion
+                                )
+
+write_basic_package_version_file(${libstreams_BINARY_DIR}/LibStreamsConfigVersion.cmake
+                                 VERSION ${STRIGI_VERSION_STRING}
+                                 COMPATIBILITY SameMajorVersion
+                                )
 
 ##### building and testing #####
 
@@ -85,8 +95,10 @@ install(FILES
 	DESTINATION include/strigi
 )
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/StrigiConfig.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/StrigiConfigVersion.cmake
 	DESTINATION ${LIB_DESTINATION}/strigi)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/LibStreamsConfig.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/LibStreamsConfigVersion.cmake
 	DESTINATION ${LIB_DESTINATION}/libstreams)
 install(EXPORT StreamsExport FILE LibStreamsTargets.cmake
         DESTINATION ${LIB_DESTINATION}/libstreams)
