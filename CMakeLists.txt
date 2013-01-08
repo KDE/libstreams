@@ -34,11 +34,11 @@ file(RELATIVE_PATH INCLUDE_DESTINATION ${_LIBRARY_ROOT} ${CMAKE_INSTALL_PREFIX}/
 # RPATH directories outside the current CMAKE_BINARY_DIR and also the library
 # install directory. Alex
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH  TRUE)
-set(CMAKE_INSTALL_RPATH                ${LIB_DESTINATION} )
+set(CMAKE_INSTALL_RPATH ${LIB_DESTINATION} )
 
 if(NOT MSVC AND NOT MINGW AND NOT CMAKE_SYSTEM MATCHES "SunOS-5*.")
-	add_definitions(-fPIC)
-endif(NOT MSVC AND NOT MINGW AND NOT CMAKE_SYSTEM MATCHES "SunOS-5*.")
+  add_definitions(-fPIC)
+endif()
 
 ##### environment inspection #####
 
@@ -75,8 +75,8 @@ feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 # generate the config file include/strigi/strigi-config.h and lib/config.h
 include(ConfigureChecks.cmake)
-configure_file(StrigiConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/StrigiConfig.cmake @ONLY )
-configure_file(LibStreamsConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/LibStreamsConfig.cmake @ONLY )
+configure_file(StrigiConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/StrigiConfig.cmake @ONLY)
+configure_file(LibStreamsConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/LibStreamsConfig.cmake @ONLY)
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(${libstreams_BINARY_DIR}/StrigiConfigVersion.cmake
@@ -93,18 +93,16 @@ write_basic_package_version_file(${libstreams_BINARY_DIR}/LibStreamsConfigVersio
 
 # every directory needs the headers that will be installed
 include_directories(${libstreams_SOURCE_DIR}/include
-	${libstreams_SOURCE_DIR}/lib
-	${libstreams_BINARY_DIR}/include
-	${libstreams_BINARY_DIR}/lib
-        ${ZLIB_INCLUDE_DIR}
-        ${BZIP2_INCLUDE_DIR}
-        ${ICONV_INCLUDE_DIR}
+                    ${libstreams_SOURCE_DIR}/lib
+                    ${libstreams_BINARY_DIR}/include
+                    ${libstreams_BINARY_DIR}/lib
+                    ${ZLIB_INCLUDE_DIR}
+                    ${BZIP2_INCLUDE_DIR}
+                    ${ICONV_INCLUDE_DIR}
 )
-
 
 add_subdirectory(lib)
 add_subdirectory(tests)
-
 
 ##### installing #####
 
@@ -112,22 +110,25 @@ add_subdirectory(tests)
 # headers
 file(GLOB STRIGI_HEADERS include/strigi/*.h)
 install(FILES
-	${STRIGI_HEADERS}
-	${strigi_config_output}
-	${strigi_extra_config_output}
-	DESTINATION include/strigi
+      ${STRIGI_HEADERS}
+      ${strigi_config_output}
+      ${strigi_extra_config_output}
+        DESTINATION include/strigi
 )
+
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/StrigiConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/StrigiConfigVersion.cmake
-	DESTINATION ${LIB_DESTINATION}/strigi)
+        DESTINATION ${LIB_DESTINATION}/strigi)
+
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/LibStreamsConfig.cmake
               ${CMAKE_CURRENT_BINARY_DIR}/LibStreamsConfigVersion.cmake
-	DESTINATION ${LIB_DESTINATION}/libstreams)
+        DESTINATION ${LIB_DESTINATION}/libstreams)
+
 install(EXPORT StreamsExport FILE LibStreamsTargets.cmake
         DESTINATION ${LIB_DESTINATION}/libstreams)
 
 # library
 if(NOT WIN32)
-	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lib/libstreams.pc
-		DESTINATION ${LIB_DESTINATION}/pkgconfig)
-endif(NOT WIN32)
+      install(FILES ${CMAKE_CURRENT_BINARY_DIR}/lib/libstreams.pc
+              DESTINATION ${LIB_DESTINATION}/pkgconfig)
+endif()
