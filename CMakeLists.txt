@@ -1,12 +1,13 @@
 project (libstreams)
 
-
 ##### cmake settings #####
-
 cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(MacroCheckGccVisibility)
 enable_testing()
+
+# Used to report found packages
+include(FeatureSummary)
 
 ##### global variables #####
 
@@ -45,10 +46,32 @@ endif(NOT MSVC AND NOT MINGW AND NOT CMAKE_SYSTEM MATCHES "SunOS-5*.")
 macro_check_gcc_visibility(__STRIGI_HAVE_GCC_VISIBILITY)
 
 # check for required packages
-find_package(ZLIB REQUIRED)
-find_package(BZip2 REQUIRED)
-find_package(Iconv REQUIRED)
-find_package(Threads REQUIRED)
+find_package(ZLIB)
+set_package_properties(ZLIB PROPERTIES
+                       DESCRIPTION "Support for gzip compressed files and data streams"
+                       URL "http://www.zlib.net"
+                       TYPE REQUIRED
+                      )
+
+find_package(BZip2)
+set_package_properties(BZip2 PROPERTIES
+                       DESCRIPTION "Support for BZip2 compressed files and data streams"
+                       URL "http://www.bzip.org"
+                       TYPE REQUIRED
+                      )
+
+find_package(Iconv)
+set_package_properties(Iconv PROPERTIES
+                       TYPE REQUIRED
+                      )
+
+find_package(Threads)
+set_package_properties(Threads PROPERTIES
+                       DESCRIPTION "The thread library of the system"
+                       TYPE REQUIRED
+                      )
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 # generate the config file include/strigi/strigi-config.h and lib/config.h
 include(ConfigureChecks.cmake)
