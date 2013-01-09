@@ -46,6 +46,9 @@ endif()
 # check for visibility support
 macro_check_gcc_visibility(__STRIGI_HAVE_GCC_VISIBILITY)
 
+# Generate include/strigi/strigiconfig.h and lib/config.h
+include(ConfigureChecks.cmake)
+
 # check for required packages
 find_package(ZLIB)
 set_package_properties(ZLIB PROPERTIES
@@ -72,12 +75,21 @@ set_package_properties(Threads PROPERTIES
                        TYPE REQUIRED
                       )
 
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+##### building and testing #####
+# every directory needs the headers that will be installed
+include_directories(${libstreams_SOURCE_DIR}/include
+                    ${libstreams_BINARY_DIR}/include
+                    ${libstreams_SOURCE_DIR}/lib
+                    ${libstreams_BINARY_DIR}/lib
+                    ${ZLIB_INCLUDE_DIR}
+                    ${BZIP2_INCLUDE_DIR}
+                    ${ICONV_INCLUDE_DIR}
+)
 
 add_subdirectory(lib)
 add_subdirectory(tests)
-
-feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
-
 
 # Create the CMake Config files
 configure_package_config_file(StrigiConfig.cmake.in
@@ -101,18 +113,6 @@ write_basic_package_version_file(${libstreams_BINARY_DIR}/LibStreamsConfigVersio
                                  VERSION ${STRIGI_VERSION_STRING}
                                  COMPATIBILITY SameMajorVersion
                                 )
-
-
-##### building and testing #####
-# every directory needs the headers that will be installed
-include_directories(${libstreams_SOURCE_DIR}/include
-                    ${libstreams_SOURCE_DIR}/lib
-                    ${libstreams_BINARY_DIR}/include
-                    ${libstreams_BINARY_DIR}/lib
-                    ${ZLIB_INCLUDE_DIR}
-                    ${BZIP2_INCLUDE_DIR}
-                    ${ICONV_INCLUDE_DIR}
-)
 
 
 ##### installing #####
