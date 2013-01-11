@@ -28,7 +28,7 @@ if(NOT WIN32)
                 StringStreamTest.cpp    # this maybe works with mingw
                 stat64bitTest.cpp
         )
-endif(NOT WIN32)
+endif()
 
 CREATE_TEST_SOURCELIST(Tests ${streamtests})
 

@@ -41,7 +41,7 @@ set(streams_SRCS ${streams_SRCS}
 	processinputstream.cpp
 	mmapfileinputstream.cpp
 )
-endif(NOT WIN32)
+endif()
 
 #add the compatibility files
 set(streams_SRCS ${streams_SRCS} compat.cpp)
@@ -66,4 +66,4 @@ install(TARGETS streams EXPORT StreamsExport
 
 if(NOT WIN32)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libstreams.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libstreams.pc)
-endif(NOT WIN32)
+endif()
