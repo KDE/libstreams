@@ -24,9 +24,9 @@ set(STRIGI_VERSION_PATCH 7 CACHE INT "Release Strigi version number" FORCE)
 set(STRIGI_VERSION_STRING "${STRIGI_VERSION_MAJOR}.${STRIGI_VERSION_MINOR}.${STRIGI_VERSION_PATCH}" CACHE STRING "Strigi version string" FORCE)
 set(LIBSTREAMS_VERSION ${STRIGI_VERSION_STRING})
 
-# Paths definitions
-set(LIB_DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-set(INCLUDE_DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+# (Absolute) paths definitions
+set(LIB_DESTINATION     "${CMAKE_INSTALL_FULL_LIBDIR}")
+set(INCLUDE_DESTINATION "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
 
 # Set up RPATH handling, so the libs are found if they are installed to a non-standard location.
 # By default cmake builds the targets with full RPATH to everything in the build directory,
