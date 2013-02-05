@@ -244,9 +244,9 @@
 #endif //STRIGICONFIG_H
 
 namespace Strigi {
-    unsigned int STRIGI_EXPORT versionMajor();
+    STRIGI_EXPORT unsigned int versionMajor();
 
-    unsigned int STRIGI_EXPORT versionMinor();
+    STRIGI_EXPORT unsigned int versionMinor();
 
-    const char* STRIGI_EXPORT versionString();
+    STRIGI_EXPORT const char* versionString();
 }
