@@ -46,9 +46,6 @@ endif()
 # check for visibility support
 macro_check_gcc_visibility(__STRIGI_HAVE_GCC_VISIBILITY)
 
-# Generate include/strigi/strigiconfig.h and lib/config.h
-include(ConfigureChecks.cmake)
-
 # check for required packages
 find_package(ZLIB)
 set_package_properties(ZLIB PROPERTIES
@@ -76,6 +73,9 @@ set_package_properties(Threads PROPERTIES
                       )
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+# Generate include/strigi/strigiconfig.h and lib/config.h
+include(ConfigureChecks.cmake)
 
 ##### building and testing #####
 # every directory needs the headers that will be installed
