@@ -39,8 +39,8 @@ FileInputStream::FileInputStream(const char* filepath, int32_t buffersize) {
         m_status = Error;
         return;
     }
-    FILE* f = fopen(filepath, "rb");
-    open(f, filepath, buffersize);
+    file = fopen(filepath, "rb");
+    open(file, filepath, buffersize);
 }
 FileInputStream::FileInputStream(FILE* file, const char* filepath,
         int32_t buffersize) {

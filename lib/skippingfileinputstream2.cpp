@@ -36,8 +36,8 @@ SkippingFileInputStream2::SkippingFileInputStream2(const char* filepath, int32_t
         m_status = Error;
         return;
     }
-    FILE* f = fopen(filepath, "rb");
-    open(f, filepath, buffersize);
+    file = fopen(filepath, "rb");
+    open(file, filepath, buffersize);
 }
 SkippingFileInputStream2::SkippingFileInputStream2(FILE* file, const char* filepath,
         int32_t buffersize) {

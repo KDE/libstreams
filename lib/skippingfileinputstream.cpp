@@ -38,8 +38,8 @@ SkippingFileInputStream::SkippingFileInputStream(const char* filepath) {
         m_status = Error;
         return;
     }
-    FILE* f = fopen(filepath, "rb");
-    open(f, filepath);
+    file = fopen(filepath, "rb");
+    open(file, filepath);
 }
 void
 SkippingFileInputStream::open(FILE* f, const char* path) {
