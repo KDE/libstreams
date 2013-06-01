@@ -34,7 +34,7 @@ namespace Strigi {
  * BufferedStream will do the rest.
  */
 template <class T>
-class BufferedStream : public StreamBase<T> {
+class STREAMS_EXPORT BufferedStream : public StreamBase<T> {
 private:
     StreamBuffer<T> buffer;
     bool finishedWritingToBuffer;
