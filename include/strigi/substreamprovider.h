@@ -88,7 +88,7 @@ public:
      *
      * @param input the inputstream that will be split into substreams
      */
-    SubStreamProvider(InputStream *input)
+    explicit SubStreamProvider(InputStream *input)
         : m_status(Ok)
         , m_input(input)
         , m_entrystream(0)

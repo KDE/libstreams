@@ -30,7 +30,7 @@ private:
     Private* const p;
     int32_t fillBuffer(char* start, int32_t space);
 public:
-    BZ2InputStream(InputStream* input);
+    explicit BZ2InputStream(InputStream* input);
     ~BZ2InputStream();
     static bool checkHeader(const char* data, int32_t datasize);
 };

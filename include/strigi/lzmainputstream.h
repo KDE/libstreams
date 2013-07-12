@@ -30,7 +30,7 @@ private:
     Private* const p;
     int32_t fillBuffer(char* start, int32_t space);
 public:
-    LZMAInputStream(InputStream* input);
+    explicit LZMAInputStream(InputStream* input);
     ~LZMAInputStream();
     static bool checkHeader(const char* data, int32_t datasize);
 };

@@ -38,7 +38,7 @@ public:
      * @brief Opens a stream for the given url.
      *
      * What is meant by @p url will depend on context.  In the context of an
-     * archive with a file system-like directory stucture, it will be the path
+     * archive with a file system-like directory structure, it will be the path
      * to the file relative the root of the archive (eg: /foo/bar).
      *
      * @param url unique name of or path to an item
@@ -49,7 +49,7 @@ public:
      * @brief Gets information about a given url
      *
      * What is meant by @p url will depend on context.  In the context of an
-     * archive with a file system-like directory stucture, it will be the path
+     * archive with a file system-like directory structure, it will be the path
      * to the file relative the root of the archive (eg: /foo/bar).
      *
      * @param url unique name of or path to an item
@@ -89,7 +89,7 @@ public:
          * @param e a vector containing information about each
          * item in the directory
          */
-        DirLister(Private* p);
+        explicit DirLister(Private* p);
         /**
          * @brief Copy constructor
          */

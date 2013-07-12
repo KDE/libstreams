@@ -30,7 +30,7 @@ namespace Strigi {
  *
  * This class stops reading data when either the end of the
  * underlying stream is reacher, or a given terminator is encountered
- * in the the stream.
+ * in the stream.
  */
 class SignatureInputStream : public InputStream {
 private:

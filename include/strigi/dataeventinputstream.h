@@ -48,7 +48,7 @@ public:
      * When handleEnd is called, it is guaranteed that each
      * element in the input stream has been passed in exactly
      * one call to this function, and that the calls happened
-     * in the same order as the the data occurred in the
+     * in the same order as the data occurred in the
      * InputStream.
      *
      * You should not call this function yourself.  It forms

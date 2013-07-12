@@ -50,7 +50,7 @@ test2(const char* path) {
     EntryInfo e;
     while (dl.nextEntry(e)) {
         string filepath(path);
-        filepath += "/";
+        filepath += '/';
         filepath += e.filename;
         if (e.type == EntryInfo::File) {
             test1(filepath.c_str());
@@ -83,7 +83,7 @@ walkdirectories(const char* path, void (*callback)(const char*)) {
             if (S_ISREG(dirstat.st_mode)) {
                 callback(filepath.c_str());
             } else if (S_ISDIR(dirstat.st_mode)) {
-                filepath += "/";
+                filepath += '/';
                 walkdirectories(filepath.c_str(), callback);
             }
         }
