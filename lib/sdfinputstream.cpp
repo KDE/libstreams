@@ -22,6 +22,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+#include <algorithm> 
 
 using namespace std;
 using namespace Strigi;

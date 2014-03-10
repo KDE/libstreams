@@ -22,6 +22,7 @@
 #include <strigi/bz2inputstream.h>
 #include <strigi/lzmainputstream.h>
 #include <iostream>
+#include <algorithm> 
 
 using namespace Strigi;
 using namespace std;

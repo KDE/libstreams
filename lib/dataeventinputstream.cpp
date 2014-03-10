@@ -47,7 +47,7 @@ DataEventInputStream::read(const char*& start, int32_t min, int32_t max) {
         // ignore bytes that might have been added since the file size was
         // determined
         if (m_size != -1 && m_position + nread > m_size) {
-            nread = m_size - m_position;
+            nread = (int32_t)(m_size - m_position);
         }
         m_position += nread;
         // value of -1 for totalread means data should not be reported anymore

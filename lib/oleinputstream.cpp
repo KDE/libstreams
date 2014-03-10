@@ -22,6 +22,8 @@
 #include <strigi/bufferedstream.h>
 #include <iostream>
 #include <set>
+#include <algorithm> 
+
 using namespace Strigi;
 using namespace std;
 
